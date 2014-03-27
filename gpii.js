@@ -48,17 +48,23 @@ http.get("http://localhost:8081/solution/" + os.platform(), function (res) {
 
   res.on('end', function() {
     var solutions = JSON.parse(solutionsRegistry);
+    var found = false;
+
     solutions.forEach ( function (solution) {
       if ('gpii.packageKit' in solution.contexts) {
         solutionSpec = solution.contexts['gpii.packageKit'];
-        pkgs['data'].forEach (function (app) {
-          solutionSpec.forEach (function (spec) {
+        pkgs['data'].some (function (app) {
+          solutionSpec.some (function (spec) {
             if (app.name == spec.name) {
               installedSolutions.push ( {"id": solution.id } );
+              found = true;
             }
+            return found;
           });
+          return found;
         });
       }
+      found = false;
     });
 
     console.log(installedSolutions);
