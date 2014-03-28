@@ -47,19 +47,25 @@ http.get("http://localhost:8081/solution/" + os.platform(), function (res) {
   });
 
   res.on('end', function() {
-    var installedSolution = null;
     var solutions = JSON.parse(solutionsRegistry);
-    for (var solution in solutions) {
-      if ('gpii.packageKit' in solutions[solution].contexts) {
-        solutionSpec = solutions[solution].contexts['gpii.packageKit'];
-        for (var app in pkgs['data']) {
-          if (pkgs['data'][app].name == solutionSpec.name) {
-            installedSolution = {"id": solutions[solution].id};
-            installedSolutions.push(installedSolution);
-          }
-        }
+    var found = false;
+
+    solutions.forEach ( function (solution) {
+      if ('gpii.packageKit' in solution.contexts) {
+        solutionSpec = solution.contexts['gpii.packageKit'];
+        pkgs['data'].some (function (app) {
+          solutionSpec.some (function (spec) {
+            if (app.name == spec.name) {
+              installedSolutions.push ( {"id": solution.id } );
+              found = true;
+            }
+            return found;
+          });
+          return found;
+        });
       }
-    }
+      found = false;
+    });
 
     console.log(installedSolutions);
 
