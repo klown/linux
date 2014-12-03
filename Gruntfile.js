@@ -65,14 +65,16 @@ module.exports = function(grunt) {
                     "sudo cp " + usbListenerDir + "/gpii-usb-user-listener /usr/bin/",
                     "sudo cp " + usbListenerDir +
                         "/gpii-usb-user-listener.desktop /usr/share/applications/",
-                    "sudo mkdir /var/lib/gpii"
+                    "sudo mkdir -p /var/lib/gpii",
+                    "sudo touch /var/lib/gpii/log.txt",
+                    "sudo chmod a+rw /var/lib/gpii/log.txt"
                 ].join("&&")
             },
             uninstallUsbLib: {
                 command: [
                     "sudo rm /usr/bin/gpii-usb-user-listener",
                     "sudo rm /usr/share/applications/gpii-usb-user-listener.desktop",
-                    "sudo rm -f /var/lib/gpii"
+                    "sudo rm -f -r /var/lib/gpii"
                 ].join("&&")
             },
             startGpii: {
