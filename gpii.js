@@ -17,24 +17,14 @@
 
 
 var fluid = require("universal"),
-    gpii = fluid.registerNamespace("gpii");
+    gpii = fluid.registerNamespace("gpii"),
+    kettle = fluid.registerNamespace("kettle");
 
-// Settings Handlers
-//
-fluid.require("./gpii/node_modules/gsettingsBridge", require);
-fluid.require("./gpii/node_modules/orca", require);
-fluid.require("./gpii/node_modules/alsa", require);
-fluid.require("./gpii/node_modules/xrandr", require);
-
-// Device Reporters
-//
-fluid.require("./gpii/node_modules/packagekit", require);
+require("./index.js");
 
 kettle.config.makeConfigLoader({
     nodeEnv: kettle.config.getNodeEnv("fm.ps.sr.dr.mm.os.lms.development"),
     configPath: kettle.config.getConfigPath() || "../node_modules/universal/gpii/configs"
 });
-
-require("./index.js");
 
 gpii.start();
