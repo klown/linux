@@ -22,9 +22,4 @@ var fluid = require("universal"),
 
 require("./index.js");
 
-kettle.config.makeConfigLoader({
-    configName: kettle.config.getNodeEnv("development.all.local"),
-    configPath: kettle.config.getConfigPath() || "../node_modules/universal/gpii/configs"
-});
-
 gpii.start();
